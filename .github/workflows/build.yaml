@@ -1,0 +1,47 @@
+name: Validate code
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validateCode:
+    name: Validate code in spark container
+    runs-on: ubuntu-latest
+    container:
+      image: esdcrproduction.azurecr.io/spark:v1.1.13-bitnami-3.1.2-python-3.9.6-0
+      credentials:
+        username: ${{ secrets.AZCR_PROD_USER }}
+        password: ${{ secrets.AZCR_PROD_TOKEN }}
+      options: -u root -w /opt/bitnami/spark --mount type=tmpfs,destination=/home/spark
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prepare venv
+      run: |
+        set -e
+
+        python -m virtualenv hadoopwrapper
+        . hadoopwrapper/bin/activate
+        pip install -r ./requirements.txt
+        pip install -r ./requirements-dev.txt
+    - name: Lint
+      run: |
+        set -e
+
+        pypath=$(pwd)
+        export PYTHONPATH="$pypath/src:$PYTHONPATH"
+
+        . hadoopwrapper/bin/activate
+        find ./src/hadoop_fs_wrapper -type f -name "*.py" | xargs pylint
+    - name: Unit test
+      run: |
+        set -e
+
+        pypath=$(pwd)
+        export PYTHONPATH="$pypath/src:$PYTHONPATH"
+
+        . hadoopwrapper/bin/activate
+        pytest ./test
