@@ -29,7 +29,7 @@ def is_valid_source_path(file_system: FileSystem, path: str):
      Checks whether a regexp path refers to a valid set of paths
     :param file_system: pyHadooopWrapper FileSystem
     :param path: path e.g. (s3a|abfss|file|...)://hello@world.com/path/part*.csv
-    :return: dict containing "base_path" and "glob_filter"
+    :return: true if path resolves to existing paths, otherwise false
     """
     return len(file_system.glob_status(path)) > 0
 ```
