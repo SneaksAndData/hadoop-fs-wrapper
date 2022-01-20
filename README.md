@@ -1,20 +1,42 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Hadoop FileSystem Java Class Wrapper 
+Typed Python wrappers for [Hadoop FileSystem](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html) class family.
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Installation
+You can install this package from `pypi` on any Hadoop or Spark runtime:
+```commandline
+pip install hadoop-fs-wrapper
+```
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Select a version that matches hadoop version you are using:
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+| Hadoop Version | Compatible hadoop-fs-wrapper version |
+|----------------|:------------------------------------:|
+| 3.2.x          |                0.4.x                 |
+| 3.3.x          |                0.4.x                 |
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Usage
+Common use case is accessing Hadoop FileSystem from Spark session object:
+```python
+from hadoop_fs_wrapper.wrappers.file_system import FileSystem
+
+file_system = FileSystem.from_spark_session(spark=spark_session)
+```
+
+Then, for example, one can check if there are any files under specified path:
+```python
+def is_valid_source_path(file_system: FileSystem, path: str):
+    """
+     Checks whether a regexp path refers to a valid set of paths
+    :param file_system: pyHadooopWrapper FileSystem
+    :param path: path e.g. (s3a|abfss|file|...)://hello@world.com/path/part*.csv
+    :return: dict containing "base_path" and "glob_filter"
+    """
+    return len(file_system.glob_status(path)) > 0
+```
+
+## Contribution
+
+Currently basic filesystem operations (listing, deleting, search, iterative listing etc.) are supported. If an operation you require is not yet wrapped,
+please open an issue or create a PR.
+
+All changes are tested against Spark 3.2 running in local mode.
