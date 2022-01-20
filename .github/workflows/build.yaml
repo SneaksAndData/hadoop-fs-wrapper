@@ -1,0 +1,69 @@
+name: Validate code
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validateCode:
+    name: Validate code in spark container
+    runs-on: ubuntu-latest
+    container:
+      image: esdcrproduction.azurecr.io/spark:v1.1.13-bitnami-3.1.2-python-3.9.6-0
+      credentials:
+        username: ${{ secrets.AZCR_PROD_USER }}
+        password: ${{ secrets.AZCR_PROD_TOKEN }}
+      options: -u root -w /opt/bitnami/spark --mount type=tmpfs,destination=/home/spark
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prepare venv
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8.x'
+      run: |
+        set -e
+
+        python -m virtualenv hadoopwrapper
+        source hadoopwrapper/bin/activate
+        pip install -r ./requirements.txt
+        pip install -r ./requirements-dev.txt
+    - name: Lint
+      run: |
+        set -e
+
+        pypath=$(pwd)
+        export PYTHONPATH="$pypath/src:$PYTHONPATH"
+
+        source hadoopwrapper/bin/activate
+        find ./src/hadoop_fs_wrapper -type f -name "*.py" | xargs pylint
+    - name: Unit test
+      run: |
+        set -e
+
+        pypath=$(pwd)
+        export PYTHONPATH="$pypath/src:$PYTHONPATH"
+
+        source hadoopwrapper/bin/activate
+        pytest ./test
+#    - name: Test
+#      working-directory: ./test/CrossfireXUnit
+#      env:
+#        TESTSETTINGS_JSON: '${{ secrets.TESTSETTINGS_JSON }}'
+#        SPN_ID: ${{ secrets.SPN_ID }}
+#        SPN_SECRET: ${{ secrets.SPN_SECRET }}
+#        TENANT: ${{ secrets.TENANT }}
+#      run: |
+#        rm testsettings.json &&
+#        echo $TESTSETTINGS_JSON > testsettings.json &&
+#        az login --service-principal --username $SPN_ID --password $SPN_SECRET --tenant $TENANT &&
+#        dotnet add package coverlet.msbuild &&
+#        dotnet test CrossfireXUnit.csproj --configuration Debug --runtime linux-x64 /p:CollectCoverage=true /p:CoverletOutput=Coverage/ /p:CoverletOutputFormat=lcov --logger GitHubActions
+#    - name: Publish Code Coverage
+#      if: ${{ github.event_name == 'pull_request' && always() }}
+#      uses: romeovs/lcov-reporter-action@v0.2.16
+#      with:
+#        github-token: ${{ secrets.GITHUB_TOKEN }}
+#        lcov-file: ./test/CrossfireXUnit/Coverage/coverage.info
