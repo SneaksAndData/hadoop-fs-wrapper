@@ -24,7 +24,7 @@ file_system = FileSystem.from_spark_session(spark=spark_session)
 
 Then, for example, one can check if there are any files under specified path:
 ```python
-def is_valid_source_path(file_system: FileSystem, path: str):
+def is_valid_source_path(file_system: FileSystem, path: str) -> bool:
     """
      Checks whether a regexp path refers to a valid set of paths
     :param file_system: pyHadooopWrapper FileSystem
