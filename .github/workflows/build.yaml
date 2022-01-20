@@ -11,7 +11,7 @@ jobs:
     name: Validate code in spark container
     runs-on: ubuntu-latest
     container:
-      image: format('{0}/spark:v1.1.13-bitnami-3.1.2-python-3.9.6-0', ${{ secrets.AZCR_PROD_USER }})
+      image: ${{ secrets.DOCKER_REGISTRY_NAME }}
       credentials:
         username: ${{ secrets.AZCR_PROD_USER }}
         password: ${{ secrets.AZCR_PROD_TOKEN }}
