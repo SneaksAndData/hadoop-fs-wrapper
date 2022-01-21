@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  validateCode:
+  validate_code:
     name: Validate code in spark container
     runs-on: ubuntu-latest
     container:
@@ -46,10 +46,41 @@ jobs:
           . hadoopwrapper/bin/activate
           pytest ./test
 
-  releaseToPypiTest:
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [ validate_code ]
+    if: ${{ github.ref == 'refs/heads/main' }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
+      - name: Create Release
+        env:
+          MAJOR_V: "0"
+          MINOR_V: "4"
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          providedMajor=$MAJOR_V
+          providedMinor=$MINOR_V
+          currentVersion=$(git describe --tags --abbrev=7)
+          currentMinor=$(echo $currentVersion | cut -d. -f2)
+          currentMajor=$(echo $currentVersion | cut -d. -f1 | cut -dv -f2)
+          if [[ $currentMajor -eq $providedMajor ]] && [[ $providedMinor -eq $currentMinor ]];
+          then
+            currentRevision=$(echo $(echo $currentVersion | rev | cut -d. -f1) | rev | cut -d- -f1)
+            nextRevision=$(( currentRevision + 1 ))
+          else
+            nextRevision='0'
+          fi
+          nextVersion="v$providedMajor.$providedMinor.$nextRevision"
+          gh release create $nextVersion --generate-notes
+
+  release_to_pypi_test:
     name: Release distribution to test.pypi.org
     runs-on: ubuntu-latest
-    needs: [ validateCode ]
+    needs: [ create_release ]
 
     steps:
       - uses: actions/checkout@v2
