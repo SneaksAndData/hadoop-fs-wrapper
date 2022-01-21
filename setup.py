@@ -1,6 +1,11 @@
 import subprocess
 import setuptools
 
+from pathlib import Path
+
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
+
 
 def get_version():
     base_version = subprocess.check_output(["git", "describe", "--tags", "--abbrev=7"]).strip().decode("utf-8")
@@ -16,6 +21,8 @@ def get_version():
 setuptools.setup(name='hadoop-fs-wrapper',
                  version=get_version(),
                  description='Python Wrapper for Hadoop Java API',
+                 long_description=long_description,
+                 long_description_content_type='text/markdown',
                  author='ECCO Sneaks & Data',
                  author_email='esdsupport@ecco.com',
                  classifiers=[
