@@ -18,6 +18,12 @@ jobs:
       options: -u root -w /opt/bitnami/spark --mount type=tmpfs,destination=/home/spark
 
     steps:
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+        with:
+          key: esd-spark-image-c1110d14d3a533c1f5dc8f5f35b2e54c1a86dce7da0c5e319a6c775796bc5163
+          restore-keys: |
+            esd-spark-image-
       - uses: actions/checkout@v2
       - name: Prepare venv
         run: |
