@@ -49,6 +49,7 @@ jobs:
   releaseToPypiTest:
     name: Release distribution to test.pypi.org
     runs-on: ubuntu-latest
+    needs: [validateCode]
 
     steps:
       - uses: actions/setup-python@v2
