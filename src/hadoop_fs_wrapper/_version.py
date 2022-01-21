@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 """
-  Init file.
+ Version file.
 """
 
-from hadoop_fs_wrapper._version import __version__
+__version__ = '0.0.0'  # replaced by git tag on deploy
