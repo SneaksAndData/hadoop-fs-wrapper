@@ -174,7 +174,7 @@ def test_write_rename(spark_session):
             "testFileLength/test_1_char", 1, id="1 char"
         ),
         pytest.param(
-            "testFileLength/test_11_chars", 1, id="11 chars"
+            "testFileLength/test_11_chars", 11, id="11 chars"
         ),
     ],
     )
