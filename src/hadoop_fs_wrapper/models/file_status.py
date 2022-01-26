@@ -83,3 +83,10 @@ class FileStatus:
 
         """
         return self.underlying.getBlockSize()
+
+    def get_file_length(self) -> int:
+        """
+         Wraps getLen() method.
+
+        """
+        return self.underlying.getLen()

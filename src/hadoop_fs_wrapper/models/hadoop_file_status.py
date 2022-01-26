@@ -42,6 +42,7 @@ class HadoopFileStatus:
     modified_on: datetime
     type: str
     block_size: int
+    length: int
 
     @classmethod
     def from_file_status(cls, hadoop_file_status: FileStatus):
@@ -62,5 +63,6 @@ class HadoopFileStatus:
                 microsecond=hadoop_file_status.get_modification_time() % 1000 * 1000
             ),
             type="File" if hadoop_file_status.is_file() else "Folder",
-            block_size=hadoop_file_status.get_block_size()
+            block_size=hadoop_file_status.get_block_size(),
+            length=hadoop_file_status.get_file_length()
         )
