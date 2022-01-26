@@ -171,14 +171,14 @@ def test_write_rename(spark_session):
             "testFileLength/test_empty", 0, id="empty"
         ),
         pytest.param(
-            "testFileLength/test_1_char", 1, id="empty"
+            "testFileLength/test_1_char", 1, id="1 char"
         ),
         pytest.param(
-            "testFileLength/test_11_char", 1, id="empty"
+            "testFileLength/test_11_char", 1, id="11 chars"
         ),
     ],
     )
-def test_exists(spark_session, path, expected):
+def test_length(spark_session, path, expected):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
 
     try:
