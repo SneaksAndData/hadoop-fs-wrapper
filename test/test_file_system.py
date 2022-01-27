@@ -163,3 +163,28 @@ def test_write_rename(spark_session):
 
     except RuntimeError:
         pytest.fail("Failed to run test_write_rename")
+
+
+@pytest.mark.parametrize("path, expected", 
+    [
+        pytest.param(
+            "testFileLength/test_empty", 0, id="empty"
+        ),
+        pytest.param(
+            "testFileLength/test_1_char", 1, id="1 char"
+        ),
+        pytest.param(
+            "testFileLength/test_11_chars", 11, id="11 chars"
+        ),
+    ],
+    )
+def test_length(spark_session, path, expected):
+    test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
+
+    try:
+        fs = FileSystem.from_spark_session(spark_session)
+        result = fs.list_objects(
+            f"file:///{test_data_path}/{path}")[0].length
+        assert result == expected, "FileSystem.list_object().length did not return the expected result"
+    except RuntimeError:
+        pytest.fail("Failed to run FileSystem.list_object().length")

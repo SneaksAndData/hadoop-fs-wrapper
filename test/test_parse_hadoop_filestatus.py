@@ -43,7 +43,7 @@ class MockPermission:
 
 
 class MockFileStatus:
-    def __init__(self, path, owner, group, permission, modification_time, is_file, block_size):
+    def __init__(self, path, owner, group, permission, modification_time, is_file, block_size, length):
         self.path = MockPath(path)
         self.owner = owner
         self.group = group
@@ -51,6 +51,7 @@ class MockFileStatus:
         self.modification_time = modification_time
         self.is_file = is_file
         self.block_size = block_size
+        self.length = length
 
     def getPath(self):
         return self.path
@@ -73,6 +74,9 @@ class MockFileStatus:
     def getBlockSize(self):
         return self.block_size
 
+    def getLen(self):
+        return self.length
+
 
 def test_parse_hadoop_file_status():
     test_obj = MockFileStatus(path='test.json',
@@ -80,7 +84,9 @@ def test_parse_hadoop_file_status():
                               group='group-name',
                               permission='rwx------',
                               modification_time=1546300800 * 1000,
-                              is_file=True, block_size=12345)
+                              is_file=True,
+                              block_size=12345,
+                              length=123)
     test = HadoopFileStatus.from_file_status(FileStatus(underlying=test_obj))
 
     expected = HadoopFileStatus(path='test.json',
@@ -89,6 +95,7 @@ def test_parse_hadoop_file_status():
                                 permission='rwx------',
                                 modified_on=datetime(2019, 1, 1, 0, 0, 0, 0),
                                 type='File',
-                                block_size=12345)
+                                block_size=12345,
+                                length=123)
 
     assert (test == expected)
