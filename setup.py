@@ -30,6 +30,9 @@ setuptools.setup(name='hadoop-fs-wrapper',
                      "License :: OSI Approved :: MIT License",
                      "Operating System :: OS Independent",
                  ],
+                 install_requires=[
+                     'pyspark~=3.2.0'
+                 ],
                  python_requires='>=3.8',
                  package_dir={"": "src"},
                  packages=setuptools.find_packages(where="src"), )
