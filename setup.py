@@ -31,7 +31,7 @@ setuptools.setup(name='hadoop-fs-wrapper',
                      "Operating System :: OS Independent",
                  ],
                  install_requires=[
-                     'pyspark~=3.2.0'
+                     'pyspark>=3.2,<3.4'
                  ],
                  python_requires='>=3.8',
                  package_dir={"": "src"},
