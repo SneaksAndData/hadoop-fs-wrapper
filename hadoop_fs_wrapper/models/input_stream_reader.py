@@ -38,20 +38,20 @@ class InputStreamReader:
     @classmethod
     def from_input_stream_and_charset(cls, jvm, input_stream, charset_name):
         """
-         Wraps constructor java.io.InputStreamReader​(InputStream in, String charsetName)
+         Wraps constructor java.io.InputStreamReader(InputStream in, String charsetName)
          Creates an InputStreamReader that uses the named charset.
         :param input_stream: An InputStream
         :param charset_name: The name of a supported charset
-        :return: InputStreamReader​
+        :return: InputStreamReader
         """
         return cls(jvm.java.io.InputStreamReader(input_stream,charset_name))
 
     @classmethod
     def from_input_stream(cls, jvm, input_stream):
         """
-         Wraps constructor java.io.InputStreamReader​(InputStream in)
+         Wraps constructor java.io.InputStreamReader(InputStream in)
          Creates an InputStreamReader that uses the default charset.
         :param input_stream: An InputStream
-        :return: InputStreamReader​
+        :return: InputStreamReader
         """
         return cls(jvm.java.io.InputStreamReader(input_stream))
