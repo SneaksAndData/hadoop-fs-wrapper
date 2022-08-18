@@ -10,7 +10,7 @@ repository = 'https://github.com/SneaksAndData/hadoop-fs-wrapper'
 
 [tool.poetry.dependencies]
 python = "^3.8"
-pyspark = "~3.2"
+pyspark = ">=3.2,<3.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0"
