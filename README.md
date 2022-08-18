@@ -18,13 +18,15 @@ Select a version that matches hadoop version you are using:
 Common use case is accessing Hadoop FileSystem from Spark session object:
 
 ```python
-from hadoop_fs_wrapper.wrappers import FileSystem
+from hadoop_fs_wrapper.wrappers.file_system import FileSystem
 
 file_system = FileSystem.from_spark_session(spark=spark_session)
 ```
 
 Then, for example, one can check if there are any files under specified path:
 ```python
+from hadoop_fs_wrapper.wrappers.file_system import FileSystem
+
 def is_valid_source_path(file_system: FileSystem, path: str) -> bool:
     """
      Checks whether a regexp path refers to a valid set of paths
