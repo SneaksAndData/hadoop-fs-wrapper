@@ -22,8 +22,8 @@
 
 
 from datetime import datetime
-from hadoop_fs_wrapper.models.hadoop_file_status import HadoopFileStatus
-from hadoop_fs_wrapper.models.file_status import FileStatus
+from hadoop_fs_wrapper.models import HadoopFileStatus
+from hadoop_fs_wrapper.models import FileStatus
 
 
 class MockPath:

@@ -16,8 +16,9 @@ Select a version that matches hadoop version you are using:
 
 ## Usage
 Common use case is accessing Hadoop FileSystem from Spark session object:
+
 ```python
-from hadoop_fs_wrapper.wrappers.file_system import FileSystem
+from hadoop_fs_wrapper.wrappers import FileSystem
 
 file_system = FileSystem.from_spark_session(spark=spark_session)
 ```
