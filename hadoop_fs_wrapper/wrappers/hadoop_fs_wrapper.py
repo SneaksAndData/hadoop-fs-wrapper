@@ -250,12 +250,12 @@ class HadoopFsWrapper:
                             input_stream: InputStreamReader,
                             charset_name: str = None) -> InputStreamReader:
         """
-          Wraps constructor java.io.InputStreamReader​(InputStream in)
+          Wraps constructor java.io.InputStreamReader(InputStream in)
           Creates an InputStreamReader that uses the named charset.
 
         :param input_stream: An InputStream
         :param charset_name: The name of a supported charset
-        :return: InputStreamReader​
+        :return: InputStreamReader
         """
         if not charset_name:
             return InputStreamReader.from_input_stream(self._jvm, input_stream.underlying)

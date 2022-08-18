@@ -10,8 +10,10 @@ jobs:
   validate_code:
     name: Validate code in spark container
     runs-on: ubuntu-latest
+    if: ${{ github.ref != 'refs/heads/main' }}
+
     container:
-      image: esdcrproduction.azurecr.io/spark:v1.1.13-bitnami-3.1.2-python-3.9.6-0
+      image: esdcrproduction.azurecr.io/spark:v1.3.2-bitnami-3.2.0-python-3.9.7-0
       credentials:
         username: ${{ secrets.AZCR_PROD_USER }}
         password: ${{ secrets.AZCR_PROD_TOKEN }}
@@ -19,76 +21,34 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Prepare venv
+      - name: Install Poetry
         run: |
           set -e
           
-          python -m virtualenv hadoopwrapper
-          . hadoopwrapper/bin/activate
-          pip install -r ./requirements.txt
-          pip install -r ./requirements-dev.txt
+          curl -sSL https://install.python-poetry.org | python3 - --preview
+      - name: Install Dependencies
+        run: |
+          set -e
+          
+          /github/home/.local/bin/poetry install
       - name: Lint
         run: |
           set -e
-          
+
           pypath=$(pwd)
-          export PYTHONPATH="$pypath/src:$PYTHONPATH"
-          
-          . hadoopwrapper/bin/activate
-          find ./src/hadoop_fs_wrapper -type f -name "*.py" | xargs pylint
+          export PYTHONPATH="$pypath:$PYTHONPATH"
+
+          find ./hadoop_fs_wrapper -type f -name "*.py" | xargs /github/home/.local/bin/poetry run pylint
       - name: Unit test
         run: |
           set -e
-          
+
           pypath=$(pwd)
-          export PYTHONPATH="$pypath/src:$PYTHONPATH"
-          
-          . hadoopwrapper/bin/activate
-          pytest ./test
+          export PYTHONPATH="$pypath:$PYTHONPATH"
 
-  create_release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    needs: [ validate_code ]
-    if: ${{ github.ref == 'refs/heads/main' }}
-
-    steps:
-      - uses: actions/checkout@v2
-      - run: git fetch --prune --unshallow
-      - name: Create Release
-        uses: SneaksAndData/github-actions/semver_release@v0.0.2
+          /github/home/.local/bin/poetry run pytest ./test --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=term-missing:skip-covered | tee pytest-coverage.txt
+      - name: Publish Code Coverage
+        uses: MishaKav/pytest-coverage-comment@main
         with:
-          major_v: 0
-          minor_v: 4
-
-  release_to_pypi_test:
-    name: Release distribution to test.pypi.org
-    runs-on: ubuntu-latest
-    needs: [ create_release ]
-
-    steps:
-      - uses: actions/checkout@v2
-      - run: git fetch --prune --unshallow
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.8.x'
-      - name: Build wheel
-        run: |
-          set -e
-          
-          version=$(git describe --tags --abbrev=7)
-          
-          pip install virtualenv
-          python -m virtualenv hadoopwrapper
-          
-          . hadoopwrapper/bin/activate
-          pip install --upgrade twine build
-          
-          echo "__version__ = '$version'" > ./src/hadoop_fs_wrapper/_version.py
-          
-          python -m build --sdist --wheel
-      - name: Publish distribution 📦 to Test PyPI
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.PYPI_TEST_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
+          pytest-coverage-path: ./pytest-coverage.txt
+          junitxml-path: ./junit/test-results.xml
