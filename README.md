@@ -12,7 +12,7 @@ Select a version that matches hadoop version you are using:
 | Hadoop Version | Compatible hadoop-fs-wrapper version |
 |----------------|:------------------------------------:|
 | 3.2.x          |                0.4.x                 |
-| 3.3.x          |                0.4.x                 |
+| 3.3.x          |             0.4.x, 0.5.x             |
 
 ## Usage
 Common use case is accessing Hadoop FileSystem from Spark session object:
