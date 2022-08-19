@@ -26,7 +26,7 @@ import pathlib
 import pytest
 from pyspark.sql import SparkSession
 
-from hadoop_fs_wrapper.wrappers import FileSystem
+from hadoop_fs_wrapper.wrappers.file_system import FileSystem
 
 
 @pytest.fixture

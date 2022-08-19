@@ -41,7 +41,7 @@ jobs:
           find ./hadoop_fs_wrapper -type f -name "*.py" | xargs /github/home/.local/bin/poetry run pylint
       - name: Unit test
         run: |
-          set -e
+          set -euxo pipefail
 
           pypath=$(pwd)
           export PYTHONPATH="$pypath:$PYTHONPATH"
