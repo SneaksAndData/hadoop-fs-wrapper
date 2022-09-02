@@ -18,7 +18,7 @@ jobs:
         run: |
           set -e
           
-          curl -sSL https://install.python-poetry.org | python3 - --preview
+          curl -sSL https://install.python-poetry.org | python3 -
           
           version=$(git describe --tags --abbrev=7)
           sed -i "s/version = \"0.0.0\"/version = \"${version:1}\"/" pyproject.toml
