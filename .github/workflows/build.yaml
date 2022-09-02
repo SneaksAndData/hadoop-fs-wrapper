@@ -25,7 +25,7 @@ jobs:
         run: |
           set -e
           
-          curl -sSL https://install.python-poetry.org | python3 - --preview
+          curl -sSL https://install.python-poetry.org | python3 -
       - name: Install Dependencies
         run: |
           set -e
