@@ -26,15 +26,10 @@ import pathlib
 import pytest
 from pyspark.sql import SparkSession
 
-from hadoop_fs_wrapper.wrappers import FileSystem
+from hadoop_fs_wrapper.wrappers.file_system import FileSystem
 
 
-@pytest.fixture
-def spark_session():
-    return SparkSession.builder.master('local[*]').getOrCreate()
-
-
-def test_list_objects(spark_session):
+def test_list_objects(spark_session: SparkSession):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
 
     try:
@@ -45,7 +40,7 @@ def test_list_objects(spark_session):
         pytest.fail("Failed to run list_objects")
 
 
-def test_list_objects_stream(spark_session):
+def test_list_objects_stream(spark_session: SparkSession):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
 
     try:
@@ -59,7 +54,7 @@ def test_list_objects_stream(spark_session):
         pytest.fail("Failed to run list_objects")
 
 
-def test_glob_status(spark_session):
+def test_glob_status(spark_session: SparkSession):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
 
     try:
@@ -71,7 +66,7 @@ def test_glob_status(spark_session):
         pytest.fail("Failed to run glob_status")
 
 
-def test_read_file(spark_session):
+def test_read_file(spark_session: SparkSession):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
     expected_data = '"a";"b"\n1;2'
 
@@ -94,7 +89,7 @@ def test_read_file(spark_session):
         ),
     ],
     )
-def test_exists(spark_session, path, expected):
+def test_exists(spark_session: SparkSession, path, expected):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
 
     try:
@@ -106,7 +101,7 @@ def test_exists(spark_session, path, expected):
         pytest.fail("Failed to run test_exists_true")
 
 
-def test_write_and_read(spark_session):
+def test_write_and_read(spark_session: SparkSession):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
     sample_data = "hello world!"
     sample_data_encoding = 'utf-8'
@@ -121,7 +116,7 @@ def test_write_and_read(spark_session):
         pytest.fail("Failed to run test_write_and_read")
 
 
-def test_write_delete_exists(spark_session):
+def test_write_delete_exists(spark_session: SparkSession):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
     sample_data = "hello world!"
     sample_data_encoding = 'utf-8'
@@ -140,7 +135,7 @@ def test_write_delete_exists(spark_session):
         pytest.fail("Failed to run test_write_delete_exists")
 
 
-def test_write_rename(spark_session):
+def test_write_rename(spark_session: SparkSession):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
     sample_data = "hello world!"
     sample_data_encoding = 'utf-8'
@@ -178,7 +173,7 @@ def test_write_rename(spark_session):
         ),
     ],
     )
-def test_length(spark_session, path, expected):
+def test_length(spark_session: SparkSession, path, expected):
     test_data_path = f"{pathlib.Path(__file__).parent.resolve()}/data"
 
     try:
