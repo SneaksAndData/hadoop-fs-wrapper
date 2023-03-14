@@ -1,4 +1,6 @@
 # Hadoop FileSystem Java Class Wrapper 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 Typed Python wrappers for [Hadoop FileSystem](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html) class family.
 
 ## Installation

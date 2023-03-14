@@ -27,11 +27,12 @@
 
 class GlobFilter:
     """
-      Wrapper for org.apache.hadoop.fs.GlobFilter
+    Wrapper for org.apache.hadoop.fs.GlobFilter
     """
+
     def __init__(self, underlying):
         """
-         Class init
+        Class init
         """
         self.underlying = underlying
 

@@ -25,12 +25,12 @@
 """
 from typing import Generic, TypeVar, Iterable, Iterator
 
-T = TypeVar('T')  # pylint: disable=C0103
+T = TypeVar("T")  # pylint: disable=C0103
 
 
 class RemoteIterator(Generic[T], Iterable[T]):
     """
-     Wrapper for org.apache.hadoop.fs.RemoteIterator<T>
+    Wrapper for org.apache.hadoop.fs.RemoteIterator<T>
     """
 
     def __iter__(self) -> Iterator[T]:
@@ -38,24 +38,24 @@ class RemoteIterator(Generic[T], Iterable[T]):
 
     def __init__(self, underlying):
         """
-         Class init
+        Class init
         """
         self.underlying = underlying
 
     def _next(self) -> T:
         """
-         Wraps E next()
-               throws IOException
-               Returns the next element in the iteration.
+        Wraps E next()
+              throws IOException
+              Returns the next element in the iteration.
         """
 
         return self.underlying.next()
 
     def _has_next(self) -> bool:
         """
-          Wraps boolean hasNext()
-                throws IOException
-                Returns true if the iteration has more elements.
+        Wraps boolean hasNext()
+              throws IOException
+              Returns true if the iteration has more elements.
         """
 
         return self.underlying.hasNext()

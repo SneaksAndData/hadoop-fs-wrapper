@@ -27,66 +27,67 @@
 
 class FileStatus:
     """
-     Wrapper for org.apache.hadoop.fs.FileStatus
+    Wrapper for org.apache.hadoop.fs.FileStatus
     """
+
     def __init__(self, underlying):
         """
-         Class init
+        Class init
         """
         self.underlying = underlying
 
     def get_path(self) -> str:
         """
-         Wraps getPath() method.
+        Wraps getPath() method.
 
         """
         return self.underlying.getPath().toString()
 
     def get_owner(self) -> str:
         """
-         Wraps getOwner() method.
+        Wraps getOwner() method.
 
         """
         return self.underlying.getOwner()
 
     def get_group(self) -> str:
         """
-         Wraps getGroup() method.
+        Wraps getGroup() method.
 
         """
         return self.underlying.getGroup()
 
     def get_permission(self) -> str:
         """
-         Wraps getPermission() method.
+        Wraps getPermission() method.
 
         """
         return self.underlying.getPermission().toString()
 
     def get_modification_time(self) -> int:
         """
-         Wraps getModificationTime() method.
+        Wraps getModificationTime() method.
 
         """
         return self.underlying.getModificationTime()
 
     def is_file(self) -> bool:
         """
-         Wraps isFile() method.
+        Wraps isFile() method.
 
         """
         return self.underlying.isFile()
 
     def get_block_size(self) -> int:
         """
-         Wraps getBlockSize() method.
+        Wraps getBlockSize() method.
 
         """
         return self.underlying.getBlockSize()
 
     def get_file_length(self) -> int:
         """
-         Wraps getLen() method.
+        Wraps getLen() method.
 
         """
         return self.underlying.getLen()

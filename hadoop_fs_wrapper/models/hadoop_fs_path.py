@@ -27,23 +27,24 @@
 
 class HadoopFsPath:
     """
-      Wrapper for org.apache.hadoop.fs.Path
+    Wrapper for org.apache.hadoop.fs.Path
     """
+
     def __init__(self, underlying):
         """
-         Class init
+        Class init
         """
         self.underlying = underlying
 
     def uri(self):
         """
-         Returns java.net.Uri corresponding to the supplied path
+        Returns java.net.Uri corresponding to the supplied path
         """
         return self.underlying.toUri()
 
     @classmethod
     def from_string(cls, jvm, path_string: str):
         """
-          Creates a new class instance directly from a path string
+        Creates a new class instance directly from a path string
         """
         return cls(jvm.org.apache.hadoop.fs.Path(path_string))

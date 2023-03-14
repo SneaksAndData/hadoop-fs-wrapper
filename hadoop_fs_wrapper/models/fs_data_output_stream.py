@@ -27,10 +27,11 @@
 
 class FSDataOutputStream:
     """
-      Wrapper for org.apache.hadoop.fs.FSDataOutputStream
+    Wrapper for org.apache.hadoop.fs.FSDataOutputStream
     """
+
     def __init__(self, underlying):
         """
-         Class init
+        Class init
         """
         self.underlying = underlying

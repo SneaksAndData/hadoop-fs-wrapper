@@ -33,8 +33,9 @@ from hadoop_fs_wrapper.models.file_status import FileStatus
 @dataclass
 class HadoopFileStatus:
     """
-      Interface that represents the client side information for a file.
+    Interface that represents the client side information for a file.
     """
+
     path: str
     owner: str
     group: str
@@ -57,12 +58,10 @@ class HadoopFileStatus:
             owner=hadoop_file_status.get_owner(),
             group=hadoop_file_status.get_group(),
             permission=hadoop_file_status.get_permission(),
-            modified_on=datetime.utcfromtimestamp(
-                hadoop_file_status.get_modification_time() // 1000
-            ).replace(
+            modified_on=datetime.utcfromtimestamp(hadoop_file_status.get_modification_time() // 1000).replace(
                 microsecond=hadoop_file_status.get_modification_time() % 1000 * 1000
             ),
             type="File" if hadoop_file_status.is_file() else "Folder",
             block_size=hadoop_file_status.get_block_size(),
-            length=hadoop_file_status.get_file_length()
+            length=hadoop_file_status.get_file_length(),
         )

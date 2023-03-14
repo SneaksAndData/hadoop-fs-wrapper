@@ -27,11 +27,12 @@
 
 class BufferedOutputStream:
     """
-      Wrapper for java.io.BufferedOutputStream
+    Wrapper for java.io.BufferedOutputStream
     """
+
     def __init__(self, underlying):
         """
-         Class init
+        Class init
         """
         self.underlying = underlying
 
