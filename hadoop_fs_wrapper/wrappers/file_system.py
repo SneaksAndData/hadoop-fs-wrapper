@@ -35,8 +35,8 @@ from hadoop_fs_wrapper.models.file_status import FileStatus
 
 class FileSystem:
     """
-      Wrapper around Hadoop FileSystem (Java)
-      https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html
+    Wrapper around Hadoop FileSystem (Java)
+    https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html
     """
 
     def __init__(self, jvm, conf):
@@ -61,8 +61,11 @@ class FileSystem:
         :return: List of type HadoopFileStatus
         """
         fs_path = self._fsw.path(path)
-        files = self._fsw.list_status(fs_path) if not globfilter \
+        files = (
+            self._fsw.list_status(fs_path)
+            if not globfilter
             else self._fsw.list_status_filter(fs_path, self._fsw.glob_filter(globfilter))
+        )
 
         if files:
             return list(map(HadoopFileStatus.from_file_status, files))
@@ -71,14 +74,14 @@ class FileSystem:
 
     def list_objects_stream(self, *, path: str) -> Iterator[HadoopFileStatus]:
         """
-         Returns a remote iterator so that followup calls are made on demand while consuming the entries.
-         Each Hadoop FileSystem implementation should override this method and provide a more efficient implementation, if possible.
-         Does not guarantee to return the iterator that traverses statuses of the files in a sorted order.
+        Returns a remote iterator so that followup calls are made on demand while consuming the entries.
+        Each Hadoop FileSystem implementation should override this method and provide a more efficient implementation, if possible.
+        Does not guarantee to return the iterator that traverses statuses of the files in a sorted order.
 
-         https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html#listStatusIterator-org.apache.hadoop.fs.Path-
+        https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html#listStatusIterator-org.apache.hadoop.fs.Path-
 
-         :param path: Path to list objects in.
-         :return: Iterator of HadoopFileStatus objects
+        :param path: Path to list objects in.
+        :return: Iterator of HadoopFileStatus objects
         """
         fs_path = self._fsw.path(path)
         fs_iterator = self._fsw.list_status_iterator(path=fs_path)
@@ -95,8 +98,11 @@ class FileSystem:
         :return: List of type HadoopFileStatus
         """
         fs_path = self._fsw.path(path_pattern)
-        files = self._fsw.glob_status(fs_path) if not globfilter \
+        files = (
+            self._fsw.glob_status(fs_path)
+            if not globfilter
             else self._fsw.glob_status_filter(fs_path, self._fsw.glob_filter(globfilter))
+        )
 
         if files:
             return list(map(HadoopFileStatus.from_file_status, files))
@@ -133,7 +139,7 @@ class FileSystem:
         """
         return self._fsw.rename(self._fsw.path(src), self._fsw.path(dst))
 
-    def write(self, path: str, data: str, overwrite=False, encoding='utf-8'):
+    def write(self, path: str, data: str, overwrite=False, encoding="utf-8"):
         """
          Writes stringdata to a new file with optional overwrite
         :param path: path to write to
@@ -149,7 +155,7 @@ class FileSystem:
         buffered_stream.write(data.encode(encoding))
         buffered_stream.close()
 
-    def read(self, path: str, encoding='utf-8') -> str:
+    def read(self, path: str, encoding="utf-8") -> str:
         """
          reads stringdata from file
         :param path: path to read
@@ -158,8 +164,7 @@ class FileSystem:
         """
         stream = self._fsw.open(self._fsw.path(path))
         buffered_stream = self._fsw.buffered_input_stream(stream)
-        input_stream_reader = self._fsw.input_stream_reader(
-            buffered_stream, encoding)
+        input_stream_reader = self._fsw.input_stream_reader(buffered_stream, encoding)
         buffered_reader = self._fsw.buffered_reader(input_stream_reader)
-        lines_collector = self._jvm.java.util.stream.Collectors.joining('\n')
+        lines_collector = self._jvm.java.util.stream.Collectors.joining("\n")
         return buffered_reader.underlying.lines().collect(lines_collector)

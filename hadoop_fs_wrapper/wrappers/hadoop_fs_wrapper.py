@@ -40,8 +40,8 @@ from hadoop_fs_wrapper.models.input_stream_reader import InputStreamReader
 
 class HadoopFsWrapper:
     """
-      Wrapper around Hadoop FileSystem (Java)
-      https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html
+    Wrapper around Hadoop FileSystem (Java)
+    https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/fs/FileSystem.html
     """
 
     def __init__(self, jvm, conf):
@@ -246,9 +246,7 @@ class HadoopFsWrapper:
         """
         return BufferedReader.from_reader(self._jvm, input_reader.underlying)
 
-    def input_stream_reader(self,
-                            input_stream: InputStreamReader,
-                            charset_name: str = None) -> InputStreamReader:
+    def input_stream_reader(self, input_stream: InputStreamReader, charset_name: str = None) -> InputStreamReader:
         """
           Wraps constructor java.io.InputStreamReader(InputStream in)
           Creates an InputStreamReader that uses the named charset.
@@ -259,9 +257,7 @@ class HadoopFsWrapper:
         """
         if not charset_name:
             return InputStreamReader.from_input_stream(self._jvm, input_stream.underlying)
-        return InputStreamReader.from_input_stream_and_charset(self._jvm,
-                                                               input_stream.underlying,
-                                                               charset_name)
+        return InputStreamReader.from_input_stream_and_charset(self._jvm, input_stream.underlying, charset_name)
 
     def list_status_iterator(self, path: HadoopFsPath) -> RemoteIterator[FileStatus]:
         """

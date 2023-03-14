@@ -79,23 +79,27 @@ class MockFileStatus:
 
 
 def test_parse_hadoop_file_status():
-    test_obj = MockFileStatus(path='test.json',
-                              owner='owner-name',
-                              group='group-name',
-                              permission='rwx------',
-                              modification_time=1546300800 * 1000,
-                              is_file=True,
-                              block_size=12345,
-                              length=123)
+    test_obj = MockFileStatus(
+        path="test.json",
+        owner="owner-name",
+        group="group-name",
+        permission="rwx------",
+        modification_time=1546300800 * 1000,
+        is_file=True,
+        block_size=12345,
+        length=123,
+    )
     test = HadoopFileStatus.from_file_status(FileStatus(underlying=test_obj))
 
-    expected = HadoopFileStatus(path='test.json',
-                                owner='owner-name',
-                                group='group-name',
-                                permission='rwx------',
-                                modified_on=datetime(2019, 1, 1, 0, 0, 0, 0),
-                                type='File',
-                                block_size=12345,
-                                length=123)
+    expected = HadoopFileStatus(
+        path="test.json",
+        owner="owner-name",
+        group="group-name",
+        permission="rwx------",
+        modified_on=datetime(2019, 1, 1, 0, 0, 0, 0),
+        type="File",
+        block_size=12345,
+        length=123,
+    )
 
-    assert (test == expected)
+    assert test == expected

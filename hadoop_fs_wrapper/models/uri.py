@@ -27,11 +27,12 @@
 
 class URI:
     """
-      Wrapper for java.net.URI
+    Wrapper for java.net.URI
     """
+
     def __init__(self, underlying):
         """
-         Class init
+        Class init
         """
         self.underlying = underlying
 

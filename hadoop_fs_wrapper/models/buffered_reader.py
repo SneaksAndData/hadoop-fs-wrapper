@@ -27,11 +27,12 @@
 
 class BufferedReader:
     """
-      Wrapper for java.io.BufferedReader
+    Wrapper for java.io.BufferedReader
     """
+
     def __init__(self, underlying):
         """
-         Class init
+        Class init
         """
         self.underlying = underlying
 

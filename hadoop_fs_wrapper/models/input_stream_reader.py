@@ -27,11 +27,12 @@
 
 class InputStreamReader:
     """
-      Wrapper for java.io.InputStreamReader
+    Wrapper for java.io.InputStreamReader
     """
+
     def __init__(self, underlying):
         """
-         Class init
+        Class init
         """
         self.underlying = underlying
 
@@ -44,7 +45,7 @@ class InputStreamReader:
         :param charset_name: The name of a supported charset
         :return: InputStreamReader
         """
-        return cls(jvm.java.io.InputStreamReader(input_stream,charset_name))
+        return cls(jvm.java.io.InputStreamReader(input_stream, charset_name))
 
     @classmethod
     def from_input_stream(cls, jvm, input_stream):
