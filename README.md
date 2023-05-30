@@ -11,10 +11,11 @@ pip install hadoop-fs-wrapper
 
 Select a version that matches hadoop version you are using:
 
-| Hadoop Version | Compatible hadoop-fs-wrapper version |
-|----------------|:------------------------------------:|
-| 3.2.x          |                0.4.x                 |
-| 3.3.x          |             0.4.x, 0.5.x             |
+| Hadoop Version / Spark version | Compatible hadoop-fs-wrapper version |
+|--------------------------------|:------------------------------------:|
+| 3.2.x / 3.2.x                  |                0.4.x                 |
+| 3.3.x / 3.3.x                  |             0.4.x, 0.5.x             |
+| 3.3.x / 3.4.x                  |                0.6.x                 |
 
 ## Usage
 Common use case is accessing Hadoop FileSystem from Spark session object:
@@ -44,4 +45,4 @@ def is_valid_source_path(file_system: FileSystem, path: str) -> bool:
 Currently basic filesystem operations (listing, deleting, search, iterative listing etc.) are supported. If an operation you require is not yet wrapped,
 please open an issue or create a PR.
 
-All changes are tested against Spark 3.2/3.3 running in local mode.
+All changes are tested against Spark 3.4 running in local mode.
