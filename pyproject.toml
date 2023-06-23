@@ -13,7 +13,7 @@ python = ">=3.9, <3.12"
 pyspark = "~3.4"
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.0"
+pytest = "^7.4"
 pytest-cov = "^3.0"
 pylint = "^2.12"
 black = "~22.12.0"
