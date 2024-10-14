@@ -8,19 +8,19 @@ on:
 
 jobs:
   validate_code:
-    name: Validate code in spark container
+    name: Validate code in Spark container
     runs-on: ubuntu-latest
     if: ${{ github.ref != 'refs/heads/main' }}
 
     container:
-      image: esdcrdevelopment.azurecr.io/spark:v3.2.0-3-g1ee431d-bitnami-0ca3dee2-python-3.9.16
+      image: ghcr.io/sneaksanddata/spark:v5.0.1
       credentials:
-        username: ${{ secrets.AZCR_DEV_USER }}
-        password: ${{ secrets.AZCR_DEV_TOKEN }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
       options: -u root -w /opt/bitnami/spark --mount type=tmpfs,destination=/home/spark
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install Poetry
         run: |
           set -e
