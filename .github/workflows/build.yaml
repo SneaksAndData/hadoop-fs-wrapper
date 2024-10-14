@@ -8,9 +8,12 @@ on:
 
 jobs:
   validate_code:
-    name: Validate code in Spark container
+    name: Validate code in spark container
     runs-on: ubuntu-latest
     if: ${{ github.ref != 'refs/heads/main' }}
+    permissions:
+      contents: read
+      packages: read
 
     container:
       image: ghcr.io/sneaksanddata/spark:v5.0.1
