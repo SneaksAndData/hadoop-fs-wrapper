@@ -18,8 +18,8 @@ jobs:
     container:
       image: ghcr.io/sneaksanddata/spark:v5.0.1
       credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: USERNAME
+        password: ${{ secrets.GHCR_TOKEN }}
       options: -u root -w /opt/bitnami/spark --mount type=tmpfs,destination=/home/spark
 
     steps:
