@@ -16,6 +16,7 @@ Select a version that matches hadoop version you are using:
 | 3.2.x / 3.2.x                  |                0.4.x                 |
 | 3.3.x / 3.3.x                  |             0.4.x, 0.5.x             |
 | 3.3.x / 3.4.x                  |                0.6.x                 |
+| 3.5.x / 3.5.x                  |                0.7.x                 |
 
 ## Usage
 Common use case is accessing Hadoop FileSystem from Spark session object:
