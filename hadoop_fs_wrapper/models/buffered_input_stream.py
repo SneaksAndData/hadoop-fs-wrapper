@@ -47,3 +47,10 @@ class BufferedInputStream:
         :return: BufferedOutputStream
         """
         return cls(jvm.java.io.BufferedInputStream(input_stream))
+
+    def close(self):
+        """
+         Closes this input stream and releases any system resources associated with the stream.
+        :return:
+        """
+        return self.underlying.close()

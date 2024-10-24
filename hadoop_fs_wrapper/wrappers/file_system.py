@@ -28,6 +28,7 @@ from typing import List, Iterator
 
 from pyspark.sql import SparkSession
 
+from hadoop_fs_wrapper.models.buffered_input_stream import BufferedInputStream
 from hadoop_fs_wrapper.wrappers.hadoop_fs_wrapper import HadoopFsWrapper
 from hadoop_fs_wrapper.models.hadoop_file_status import HadoopFileStatus
 from hadoop_fs_wrapper.models.file_status import FileStatus
@@ -157,14 +158,19 @@ class FileSystem:
 
     def read(self, path: str, encoding="utf-8") -> str:
         """
-         reads stringdata from file
+         reads string data from file
         :param path: path to read
         :param encoding: encoding to read
         :return: string
         """
-        stream = self._fsw.open(self._fsw.path(path))
-        buffered_stream = self._fsw.buffered_input_stream(stream)
-        input_stream_reader = self._fsw.input_stream_reader(buffered_stream, encoding)
-        buffered_reader = self._fsw.buffered_reader(input_stream_reader)
-        lines_collector = self._jvm.java.util.stream.Collectors.joining("\n")
-        return buffered_reader.underlying.lines().collect(lines_collector)
+        buffered_stream: BufferedInputStream | None = None
+        try:
+            stream = self._fsw.open(self._fsw.path(path))
+            buffered_stream = self._fsw.buffered_input_stream(stream)
+            input_stream_reader = self._fsw.input_stream_reader(buffered_stream, encoding)
+            buffered_reader = self._fsw.buffered_reader(input_stream_reader)
+            lines_collector = self._jvm.java.util.stream.Collectors.joining("\n")
+            return buffered_reader.underlying.lines().collect(lines_collector)
+        finally:
+            if buffered_stream is not None:
+                buffered_stream.close()
