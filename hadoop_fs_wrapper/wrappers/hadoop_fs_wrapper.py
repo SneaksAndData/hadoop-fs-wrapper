@@ -246,7 +246,7 @@ class HadoopFsWrapper:
         """
         return BufferedReader.from_reader(self._jvm, input_reader.underlying)
 
-    def input_stream_reader(self, input_stream: InputStreamReader, charset_name: str = None) -> InputStreamReader:
+    def input_stream_reader(self, input_stream: BufferedInputStream, charset_name: str = None) -> InputStreamReader:
         """
           Wraps constructor java.io.InputStreamReader(InputStream in)
           Creates an InputStreamReader that uses the named charset.
