@@ -17,7 +17,7 @@ jobs:
       pull-requests: write
 
     container:
-      image: ghcr.io/sneaksanddata/spark:v5.0.1-12-g18841f9
+      image: ghcr.io/sneaksanddata/spark:v5.0.1-14-g1e99bfd
       credentials:
         username: USERNAME
         password: ${{ secrets.GHCR_TOKEN }}
@@ -25,9 +25,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
       - name: Install Poetry
         run: |
           set -e
