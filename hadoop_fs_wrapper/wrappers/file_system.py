@@ -24,7 +24,7 @@
  Python Simplification of Hadoop Filesystem
 """
 
-from typing import List, Iterator
+from typing import Iterator
 
 from pyspark.sql import SparkSession
 
@@ -53,7 +53,7 @@ class FileSystem:
         """
         return cls(spark._jvm, spark._jsc.hadoopConfiguration())
 
-    def list_objects(self, path: str, globfilter: str = None) -> List[HadoopFileStatus]:
+    def list_objects(self, path: str, globfilter: str = None) -> list[HadoopFileStatus]:
         """
          Filter files/directories in the given path using the user-supplied path filter.
          Does not guarantee to return the List of files/directories status in a sorted order.
@@ -89,7 +89,7 @@ class FileSystem:
         for fs_obj in fs_iterator:
             yield HadoopFileStatus.from_file_status(FileStatus(fs_obj))
 
-    def glob_status(self, path_pattern: str, globfilter: str = None) -> List[HadoopFileStatus]:
+    def glob_status(self, path_pattern: str, globfilter: str = None) -> list[HadoopFileStatus]:
         """
          Return an array of FileStatus objects whose path names match path_pattern
          and is accepted by the user-supplied path filter.

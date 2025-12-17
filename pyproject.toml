@@ -3,20 +3,20 @@ name = "hadoop-fs-wrapper"
 version = "0.0.0"
 description = "Python Wrapper for Hadoop Java API"
 authors = ["ECCO Sneaks & Data <esdsupport@ecco.com>"]
-maintainers = ['GZU <gzu@ecco.com>', 'JRB <ext-jrb@ecco.com>']
+maintainers = ["ECCO Sneaks & Data <esdsupport@ecco.com>"]
 license = 'MIT'
 readme = "README.md"
 repository = 'https://github.com/SneaksAndData/hadoop-fs-wrapper'
 
 [tool.poetry.dependencies]
 python = ">=3.11, <3.13"
-pyspark = "~3.5"
+pyspark = "~3.5.7"
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.0"
-pytest-cov = "^3.0"
-pylint = "^3"
-black = "^23"
+pytest = "^8"
+pytest-cov = "^7"
+pylint = "^4"
+black = "^24"
 
 [build-system]
 requires = ["poetry-core>=1.2.0"]
