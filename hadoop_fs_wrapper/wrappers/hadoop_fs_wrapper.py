@@ -23,8 +23,6 @@
 """
  Wrapper around Hadoop FileSystem (Java)
 """
-from typing import List
-
 from hadoop_fs_wrapper.models.file_status import FileStatus
 from hadoop_fs_wrapper.models.remote_iterator import RemoteIterator
 from hadoop_fs_wrapper.models.fs_data_input_stream import FSDataInputStream
@@ -60,7 +58,7 @@ class HadoopFsWrapper:
         file_system = self.get_file_system(path.uri(), self._conf)
         return file_system.delete(path.underlying, recursive)
 
-    def list_status_filter(self, path: HadoopFsPath, glob_filter: GlobFilter) -> List[FileStatus]:
+    def list_status_filter(self, path: HadoopFsPath, glob_filter: GlobFilter) -> list[FileStatus]:
         """
          Wraps listStatus:
          Filter files/directories in the given path using the user-supplied path filter.
@@ -77,7 +75,7 @@ class HadoopFsWrapper:
 
         return []
 
-    def list_status(self, path: HadoopFsPath) -> List[FileStatus]:
+    def list_status(self, path: HadoopFsPath) -> list[FileStatus]:
         """
          Wraps listStatus(Path f):
          List the statuses of the files/directories in the given path if the path is a directory.
@@ -91,7 +89,7 @@ class HadoopFsWrapper:
 
         return []
 
-    def glob_status(self, path_pattern: HadoopFsPath) -> List[FileStatus]:
+    def glob_status(self, path_pattern: HadoopFsPath) -> list[FileStatus]:
         """
          Wraps globStatus(Path f):
          Return all the files that match filePattern and are not checksum files.
@@ -106,7 +104,7 @@ class HadoopFsWrapper:
 
         return []
 
-    def glob_status_filter(self, path_pattern: HadoopFsPath, glob_filter: GlobFilter) -> List[FileStatus]:
+    def glob_status_filter(self, path_pattern: HadoopFsPath, glob_filter: GlobFilter) -> list[FileStatus]:
         """
          Wraps globStatus(Path f):
          Return all the files that match filePattern and are not checksum files.
